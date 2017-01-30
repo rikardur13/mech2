@@ -130,7 +130,7 @@ src/config/interrupts.d src/config/interrupts.o: \
  ../src/ASF/common/services/clock/sam3x/pll.h \
  ../src/ASF/sam/drivers/pmc/sleep.h \
  ../src/ASF/sam/drivers/pio/pio_handler.h ../src/config/interrupts.h \
- ../src/config/global.h ../src/config/uart.h
+ ../src/config/global.h ../src/config/uart.h ../src/config/math.h
 
 ../src/asf.h:
 
@@ -407,3 +407,5 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\arm\arm-gnu-toolchain\arm-no
 ../src/config/global.h:
 
 ../src/config/uart.h:
+
+../src/config/math.h:

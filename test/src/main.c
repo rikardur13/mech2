@@ -53,12 +53,12 @@ int main (void)
 	timers_init9();
 	interrupts_init1();
 	init_output();
-	
+	/*
 	CrankTooth = 0;
 	CurrCycleTime = 0;
 	PrevCycleTime = 0;
 	PrevCycleCounts	= 0;
-	
+	*/
 	
 	// Insert application code here, after the board has been initialized. 	
 

@@ -156,14 +156,14 @@ void TC0_Handler(void)
 	uint32_t readtc0	=	TC0->TC_CHANNEL[0].TC_SR;	// Read the Timer/Counter TC0, channel 0, status register
 	uint32_t status =	PIOC->PIO_ODSR;			// Store the status on pins in port C
 
-	/*	Toggle output pin PC17	*/
-	if (status & PIO_ODSR_P17)					// AND the status on pins in port C and the status of pin 17
+	/*	Toggle output pin PC23	*/
+	if (status & PIO_ODSR_P17)					// AND the status on pins in port C and the status of pin 23
 	{
-		PIOC->PIO_CODR	=	PIO_PC17;			// If PC17 is high,	Clear Output Data Register	-	Sets pin PC17 to low
+		PIOC->PIO_CODR	=	PIO_PC17;			// If PC23 is high,	Clear Output Data Register	-	Sets pin PC23 to low
 	}
 	else
 	{
-		PIOC->PIO_SODR	=	PIO_PC17;			// If PC17 is low,	Set Output Data Register	-	Sets pin PC17 to high
+		PIOC->PIO_SODR	=	PIO_PC17;			// If PC23 is low,	Set Output Data Register	-	Sets pin PC23 to high
 	}
 	TC0->TC_CHANNEL[0].TC_CCR	=	TC_CCR_CLKDIS;
 }

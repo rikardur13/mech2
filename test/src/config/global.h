@@ -16,7 +16,7 @@
 #define CYLINDERS					4
 #define TACH_EVENTS					2
 #define CRANK_DEGREE_INTERVAL		180
-
+#define DEGREE_TEST					149
 
 
 

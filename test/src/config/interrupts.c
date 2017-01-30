@@ -86,94 +86,24 @@ void PIOA_Handler(void)
 	
 	if (CurrCycleTime > (PrevCycleTime*15)/10)
 	{
-	
 		CrankTooth = 0;
-		
-		uint32_t status =	PIOC->PIO_ODSR;			// Store the status on pins in port C
-
-		/*	Toggle output pin PC17	*/
-		if (status & PIO_ODSR_P17)					// AND the status on pins in port C and the status of pin 17
-		{
-			PIOC->PIO_CODR	=	PIO_PC17;			// If PC17 is high,	Clear Output Data Register	-	Sets pin PC17 to low
-		}
-		else
-		{
-			PIOC->PIO_SODR	=	PIO_PC17;			// If PC17 is low,	Set Output Data Register	-	Sets pin PC17 to high
-		}
-		
-		// SecondCrankInterval = 12 - math_ign_time_teeth(36);
-		
-				
-		/*
-		TC0->TC_CHANNEL[0].TC_RA	=	TC0->TC_CHANNEL[0].TC_CV;
-		TC0->TC_CHANNEL[0].TC_CCR	=	TC_CCR_SWTRG	|	TC_CCR_CLKEN;
-		*/
+		SecondCrankInterval = 11 - math_ign_time_teeth(DEGREE_TEST);
 	}
 	else if (CrankTooth == 12)
 	{
-
-		
-		uint32_t status =	PIOC->PIO_ODSR;			// Store the status on pins in port C
-
-		/*	Toggle output pin PC17	*/
-		if (status & PIO_ODSR_P23)					// AND the status on pins in port C and the status of pin 23
-		{
-			PIOC->PIO_CODR	=	PIO_PC23;			// If PC23 is high,	Clear Output Data Register	-	Sets pin PC23 to low
-		}
-		else
-		{
-			PIOC->PIO_SODR	=	PIO_PC23;			// If PC23 is low,	Set Output Data Register	-	Sets pin PC23 to high
-		}
-		
-		
-		
-		
-		// FirtCrankInterval = 24 - math_ign_time_teeth(36);
-		
-		
-		/*
-		TC0->TC_CHANNEL[1].TC_RA	=	TC0->TC_CHANNEL[1].TC_CV;
-		TC0->TC_CHANNEL[1].TC_CCR	=	TC_CCR_SWTRG	|	TC_CCR_CLKEN;
-		*/
+		FirtCrankInterval = 23 - math_ign_time_teeth(DEGREE_TEST);
 	}
 	
-	
+	if (CrankTooth == FirtCrankInterval)
+	{		
+		TC0->TC_CHANNEL[1].TC_RA	=	math_ign_time_interval(DEGREE_TEST, PrevCycleTime);
+		TC0->TC_CHANNEL[1].TC_CCR	=	TC_CCR_SWTRG	|	TC_CCR_CLKEN;
+	}
 	if (CrankTooth == SecondCrankInterval)
 	{
-		/*
-		TC0->TC_CHANNEL[0].TC_RA	=	TC0->TC_CHANNEL[0].TC_CV + math_ign_time_interval(36, PrevCycleTime);
+		TC0->TC_CHANNEL[0].TC_RA	=	math_ign_time_interval(DEGREE_TEST, PrevCycleTime);
 		TC0->TC_CHANNEL[0].TC_CCR	=	TC_CCR_SWTRG	|	TC_CCR_CLKEN;
-		*/
-		// uart_print_int(1);
 	}
-	if (CrankTooth == FirtCrankInterval)
-	{
-		/*
-		TC0->TC_CHANNEL[1].TC_RA	=	TC0->TC_CHANNEL[1].TC_CV + math_ign_time_interval(36, PrevCycleTime);
-		TC0->TC_CHANNEL[1].TC_CCR	=	TC_CCR_SWTRG	|	TC_CCR_CLKEN;
-		*/
-		// uart_print_int(2);
-	}
-	
-
-
-
-
-	// Toggle 4 ignition pins 
-	/*
-	TC0->TC_CHANNEL[0].TC_CCR	=	TC_CCR_SWTRG	|	TC_CCR_CLKEN;
-	TC0->TC_CHANNEL[1].TC_CCR	=	TC_CCR_SWTRG	|	TC_CCR_CLKEN;
-	TC0->TC_CHANNEL[2].TC_CCR	=	TC_CCR_SWTRG	|	TC_CCR_CLKEN;
-	TC1->TC_CHANNEL[0].TC_CCR	=	TC_CCR_SWTRG	|	TC_CCR_CLKEN;
-	
-	
-	TC0->TC_CHANNEL[0].TC_RA	=	TC0->TC_CHANNEL[0].TC_CV	+	105000;	// Make timer interrupt trigger after 0,5 seconds
-	TC0->TC_CHANNEL[1].TC_RA	=	TC0->TC_CHANNEL[1].TC_CV	+	210000;
-	TC0->TC_CHANNEL[2].TC_RA	=	TC0->TC_CHANNEL[2].TC_CV	+	315000;
-	TC1->TC_CHANNEL[0].TC_RA	=	TC1->TC_CHANNEL[0].TC_CV	+	420000;
-	*/
-	
-	uart_print_int(CrankTooth);
 	CrankTooth++;
 	PrevCycleTime	=	CurrCycleTime;
 }

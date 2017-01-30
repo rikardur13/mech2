@@ -7,6 +7,7 @@
 
 #include <asf.h>
 #include "global.h"
+#include "uart.h"
 
 #ifndef MATH_H_
 #define MATH_H_
