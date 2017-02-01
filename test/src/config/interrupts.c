@@ -45,6 +45,7 @@ void enable_interrupt_vector(uint32_t irqn, uint32_t priority)
 -----------------------------------------------------------------------
 */
 
+// Crank sensor
 void interrupts_init1(void)
 {
 	/* Enable interrupt registers */
@@ -61,11 +62,37 @@ void interrupts_init1(void)
 	
 	
 	/*	Debouncing filter for a mechanical switch on pin D31	*/
-	// PIOA->PIO_IFER	=	PIO_PA7;				// Enable input glitch filter register
-	// PIOA->PIO_DIFSR	=	PIO_PA7;				// Select debouncing filter
-	// PIOA->PIO_SCDR	=	0x01;					/* Set debouncing frequency  DIV = (32768Hz*(1/frequency))/2 - 1  debouncing frequency of 333Hz	(20.000rpm)*/
+	// PIOA->PIO_IFER	=	PIO_PA15;				// Enable input glitch filter register
+	// PIOA->PIO_DIFSR	=	PIO_PA15;				// Select debouncing filter
+	// PIOA->PIO_SCDR	=	0x01;					/* Set debouncing frequency  DIV = (32768Hz*(1/frequency))/2 - 1  */
 	
 }
+
+
+
+// Cam sensor
+void interrupts_init2(void)
+{
+	/* Enable interrupt registers */
+	PMC->PMC_PCER0	=	(1 << ID_PIOA);			// Enable the peripheral clock for port A
+	
+	PIOA->PIO_IER	=	PIO_PA15;				// Enable the interrupt register on pin 7 in port A
+	enable_interrupt_vector(PIOA_IRQn, 0);		// Enable nested interrupt vector and set priority 0 in port A
+	
+	/*	Interrupt on rising edge		*/
+	PIOA->PIO_AIMER	=	PIO_PA15;				// Enable additional interrupt modes
+	PIOA->PIO_ESR	=	PIO_PA15;				// Select edge detection
+	PIOA->PIO_REHLSR=	PIO_PA15;				// Select rising edge detection
+	
+	
+	
+	/*	Debouncing filter for a mechanical switch on pin D31	*/
+	// PIOA->PIO_IFER	=	PIO_PA7;				// Enable input glitch filter register
+	// PIOA->PIO_DIFSR	=	PIO_PA7;				// Select debouncing filter
+	// PIOA->PIO_SCDR	=	0x01;					/* Set debouncing frequency  DIV = (32768Hz*(1/frequency))/2 - 1  */
+	
+}
+
 
 
 

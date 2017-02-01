@@ -13,6 +13,7 @@
 
 void enable_interrupt_vector(uint32_t irqn, uint32_t priority);
 void interrupts_init1(void);
+void interrupts_init2(void);
 
 
 
